@@ -35,6 +35,12 @@ set_target_properties(reed_solomon_test_runner PROPERTIES RUNTIME_OUTPUT_DIRECTO
 add_test(NAME reed_solomon_test WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests" COMMAND reed_solomon_test_runner)
 set(all_test_runners ${all_test_runners} reed_solomon_test_runner)
 
+add_executable(reed_solomon_dual_basis_test_runner EXCLUDE_FROM_ALL reed-solomon-dual-basis.c rs_dual_basis_tester.c ccsds_packets.dat)
+target_link_libraries(reed_solomon_dual_basis_test_runner correct_static "${LIBM}")
+set_target_properties(reed_solomon_dual_basis_test_runner PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+add_test(NAME reed_solomon_dual_basis_test WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests" COMMAND reed_solomon_dual_basis_test_runner)
+set(all_test_runners ${all_test_runners} reed_solomon_dual_basis_test_runner)
+
 if(HAVE_LIBFEC)
     add_executable(reed_solomon_interop_test_runner EXCLUDE_FROM_ALL reed-solomon-fec-interop.c rs_tester.c rs_tester_fec.c)
     target_link_libraries(reed_solomon_interop_test_runner correct_static FEC "${LIBM}")
